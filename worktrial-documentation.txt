@@ -1,0 +1,88 @@
+==== API DOCUMENTATION ====
+
+1. Search customers, which can be filtered by lastName, firstName, emailAddress, category.
+    - Endpoint: /api/v1/customers
+    - Method: GET
+    - Request param : lastName, firstName, emailAddress, category. All are optional. Any exist param will be combined into final criteria
+    - Sample:
+        curl --location --request GET \
+        'localhost:8080/api/v1/customers?name=Huy%20Ha&firstName=Nguyen&emailAddress=abc@gmail.com&category=NEW_CUSTOMER'
+
+2. List customers.
+    - Endpoint: /api/v1/customers
+    - Method: GET
+    - Request param: No
+    - Sample: curl --location --request GET 'localhost:8080/api/v1/customers'
+
+3. List customer has same city, state, country in address.
+    - Endpoint: /api/v1/customers/{customer_id}
+    - Method: GET
+    - Sample: curl --location --request GET 'localhost:8080/api/v1/customers?city=HCM&country=AU&state=Ba'
+
+4. List customer having provided productId in the order.
+    - Endpoint: /api/v1/products/{product_id}/customers
+    - Method: GET
+    - Request param: No
+    - Sample : curl --location --request GET 'localhost:8080/api/v1/products/0c7f1cac-63f6-461e-8dad-d74307d243c9/customers'
+
+5. List orders of customer by customerId
+    - Endpoint: /api/v1/customers/{customer_id}/orders
+    - Method: GET
+    - Request param: No
+    - Sample: curl --location --request GET 'localhost:8080/api/v1/customers/4685318a-65ec-47b1-acb3-e25654ac94f0/orders'
+
+6. List order of customer having state NEW_CUSTOMER.
+    - Endpoint: /api/v1/orders/order/new-customer
+    - Method: GET
+    - Request param: No
+    - Sample: curl --location --request GET 'localhost:8080/api/v1/orders/order/new-customer'
+
+7. Create customer
+    - Endpoint: /api/v1/customers
+    - Method: POST
+    - Body: customer and customer address information
+    - Sample:
+        curl --location --request POST 'localhost:8080/api/v1/customers' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "lastName" : "BB Ha HCM",
+            "firstName" : "Ha",
+            "birthdate" : "2020-12-12",
+            "jobTitle" : "Software Engineer",
+            "category" : "INACTIVE_CUSTOMER",
+            "emailAddress" : "xyz@gmail.com",
+            "customerAddress" : {
+                "street" : "123 Alohala",
+                "houseNumber" : "12345",
+                "state" : "12",
+                "country" : "England",
+                "city" : "London",
+                "zipCode" : "22"
+            }
+        }'
+
+8. Create product
+    - Endpoint: /api/v1/products
+    - Method: POST
+    - Body: product information
+    - Sample:
+        curl --location --request POST 'localhost:8080/api/v1/products' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "label" : "Lily 02",
+            "description" : "Lily on Everest",
+            "price" : 12.332
+        }'
+
+9. Create order
+    -Endpoint: /api/v1/orders
+    - Method: POST
+    - Body: order information
+    - Sample:
+        curl --location --request POST 'localhost:8080/api/v1/orders' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "additionalInfo" : "Additional Sample Info",
+            "customerId" : "4685318a-65ec-47b1-acb3-e25654ac94f0",
+            "productIds" : ["0c7f1cac-63f6-461e-8dad-d74307d243c9"]
+        }'
